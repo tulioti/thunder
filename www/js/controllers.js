@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('thunder.controllers', [])
 
-.controller('DashCtrl', function($scope, $timeout) {
+.controller('DiscoverCtrl', function($scope, $timeout, User) {
     $scope.products = [
       {
         "name": "LinkedIn ProFinder",
@@ -39,7 +39,8 @@ angular.module('starter.controllers', [])
 
     // fired when we favorite or skip a product
     $scope.sendFeedback = function(bool) {
-
+      // first, add to favorites
+      if (bool) User.addProductToFavorites($scope.currentProduct);
       // set the variable for the correct animation sequence
       $scope.currentProduct.rated = bool;
       $scope.currentProduct.hide = true;
@@ -55,6 +56,12 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('ChatsCtrl', function($scope) {})
+.controller('FavoritesCtrl', function($scope, User) {
+  // get the list of our favorites
+  $scope.favorites = User.favorites;
 
+  $scope.removeProduct = function(product, index) {
+    User.removeProductFromFavorites(product, index);
+  }
 
+})
